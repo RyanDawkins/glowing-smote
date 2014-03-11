@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Glowing Smote</string>
+    <string name="hello_world">Server Config</string>
+    <string name="action_settings">Settings</string>
+    <string name="ip_address">IP Address</string>
+    <string name="port_number">Port Number (Default 13928)</string>
+    <string name="server_preferences">glowing-preferences</string>
+    <string name="bad_port">Bad port, we defaulted to 13928</string>
+    <string name="no_ip_given">You didn\'t give an IP Address</string>
+    <string name="bad_host_name">Bad hostname, try another.</string>
+    <string name="not_default_port">Default port: 13928 is invalid.</string>
+    <string name="host_name">Host Name</string>
+    <string name="movie_playing">Movie</string>
+    <string name="movie_play">Play</string>
+    <string name="movie_pause">Pause</string>
+
+    <!-- Preferences must all start with pref_* -->
+    <string name="pref_ip_address">ip_address</string>
+    <string name="pref_port_number">port_number</string>
+    <string name="pref_is_first_time">is_first_time</string>
+
+</resources>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <TextView
+        android:id="@+id/movie_title"
+        android:gravity="center"
+        android:layout_marginTop="20px"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="60px"
+        android:text="@string/movie_playing"/>
+
+    <Button
+        android:id="@+id/play_pause_button"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20px"
+        android:drawableLeft="@drawable/ic_action_play"
+        android:text="@string/movie_play"
+        android:onClick="playerButton"
+        />
+
+    <Button
+        android:id="@+id/rewind_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/play_pause_button"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20px"
+        android:drawableLeft="@drawable/ic_action_rewind"
+        />
+
+    <Button
+        android:id="@+id/fast_forward_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/play_pause_button"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20px"
+        android:drawableRight="@drawable/ic_action_fast_forward"
+        />
+
+    <Button
+        android:id="@+id/previous_chapter_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/rewind_button"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20px"
+        android:drawableRight="@drawable/ic_action_previous"
+        />
+
+    <Button
+        android:id="@+id/next_chapter_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20px"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/fast_forward_button"
+        android:drawableLeft="@drawable/ic_action_next"
+        />
+
+</RelativeLayout>
