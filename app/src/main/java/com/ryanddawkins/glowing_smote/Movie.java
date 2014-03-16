@@ -1,5 +1,10 @@
 package com.ryanddawkins.glowing_smote;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import org.json.JSONArray;
+
 import java.lang.StringBuilder;
 
 /**
@@ -148,6 +153,17 @@ public class Movie
             json.append("}");
         json.append("}");
         return json.toString();
+    }
+
+    public static Movie forge(JsonObject movieObject)
+    {
+        if(movieObject.has("name") && movieObject.has("fileName")) {
+            Movie movie = new Movie(movieObject.get("name").getAsString());
+            movie.setFileName(movieObject.get("fileName").getAsString());
+            movie.setIsDirectory(Boolean.parseBoolean(movieObject.get("isDirectory").getAsString()));
+            return movie;
+        }
+        return null;
     }
 
 }

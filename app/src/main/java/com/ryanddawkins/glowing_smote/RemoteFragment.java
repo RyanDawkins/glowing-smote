@@ -14,6 +14,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ryanddawkins.glowing_smote.tasks.SimpleControllerTask;
+
 /**
  * Created by ryan on 2/15/14.
  */
@@ -46,6 +48,17 @@ public class RemoteFragment extends Fragment
     {
         this.loadedToVlc = loadedToVlc;
         return this;
+    }
+
+    public RemoteFragment setIsPlaying(boolean isPlaying)
+    {
+        this.isPlaying = isPlaying;
+        return this;
+    }
+
+    public boolean isPlaying()
+    {
+        return this.isPlaying;
     }
 
     public String getFilePath()
@@ -83,13 +96,18 @@ public class RemoteFragment extends Fragment
 
         if(this.loadedToVlc)
         {
-            this.isPlaying = true;
-            switchToPause();
+            if(this.isPlaying())
+            {
+                switchToPause();
+            }
+            else
+            {
+                switchToPlaying();
+            }
         }
         else
         {
             this.isPlaying = false;
-            switchToPlaying();
         }
 
     }
@@ -131,19 +149,19 @@ public class RemoteFragment extends Fragment
                 break;
             case R.id.next_chapter_button:
                 Toast.makeText(getActivity(), "Next Chapter", Toast.LENGTH_SHORT).show();
-                new DynamicVideoTask().execute(id);
+                new SimpleControllerTask().setActivity(getActivity()).setSettings(this.settings).execute(id);
                 break;
             case R.id.previous_chapter_button:
                 Toast.makeText(getActivity(), "Previous Chapter", Toast.LENGTH_SHORT).show();
-                new DynamicVideoTask().execute(id);
+                new SimpleControllerTask().setActivity(getActivity()).setSettings(this.settings).execute(id);
                 break;
             case R.id.fast_forward_button:
                 Toast.makeText(getActivity(), "Fast forward", Toast.LENGTH_SHORT).show();
-                new DynamicVideoTask().execute(id);
+                new SimpleControllerTask().setActivity(getActivity()).setSettings(this.settings).execute(id);
                 break;
             case R.id.rewind_button:
                 Toast.makeText(getActivity(), "Rewind", Toast.LENGTH_SHORT).show();
-                new DynamicVideoTask().execute(id);
+                new SimpleControllerTask().setActivity(getActivity()).setSettings(this.settings).execute(id);
                 break;
         }
     }
@@ -178,37 +196,6 @@ public class RemoteFragment extends Fragment
             {
                 switchToPlaying();
             }
-        }
-    }
-
-    private class DynamicVideoTask extends AsyncTask<Integer, Void, Void> {
-        protected Void doInBackground(Integer... params)
-        {
-            int id = params[0];
-            command = Command.getConnection(settings.getIpAddress(), settings.getPortNumber(), getActivity());
-            switch(id)
-            {
-                case R.id.next_chapter_button:
-                    Log.d("glowing-smote","Next chapter");
-                    command.simpleCommand(Command.NEXT_CHAPTER);
-                    break;
-                case R.id.previous_chapter_button:
-                    Log.d("glowing-smote","previous chapter");
-                    command.simpleCommand(Command.PREVIOUS_CHAPTER);
-                    break;
-                case R.id.fast_forward_button:
-                    Log.d("glowing-smote","fast forward");
-                    command.simpleCommand(Command.SKIP_FORWARD);
-                    break;
-                case R.id.rewind_button:
-                    Log.d("glowing-smote","rewind");
-                    command.simpleCommand(Command.SKIP_BACKWARD);
-                    break;
-                default:
-                    Log.d("glowing-smote", ""+id);
-                    break;
-            }
-            return null;
         }
     }
 
