@@ -7,7 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.ryanddawkins.glowing_smote.adapters.MovieListAdapter;
+
+import java.net.ConnectException;
 import java.util.ArrayList;
 
 /**
@@ -36,7 +40,6 @@ public class MoviesFragment extends ListFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_movies, container, false);
-
         return rootView;
     }
 
@@ -76,6 +79,7 @@ public class MoviesFragment extends ListFragment
         ArrayList<Movie> movies;
 
         protected Void doInBackground(String... params) {
+
             command = Command.getConnection(settings.getIpAddress(), settings.getPortNumber(), getActivity());
             if(command!=null){
                 this.movies = command.getMovies(params[0]);
@@ -90,6 +94,7 @@ public class MoviesFragment extends ListFragment
             if(this.movies != null) {
                 setListAdapter(new MovieListAdapter(getActivity(), this.movies));
             } else {
+                Toast.makeText(getActivity(), "Cannot connect to "+settings.getIpAddress()+" at port "+settings.getPortNumber(), Toast.LENGTH_LONG).show();
                 getActivity().getFragmentManager().beginTransaction()
                     .replace(R.id.container, new SettingsFragment()).addToBackStack(null).commit();
             }

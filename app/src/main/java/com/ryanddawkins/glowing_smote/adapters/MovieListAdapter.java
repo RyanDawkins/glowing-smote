@@ -1,4 +1,4 @@
-package com.ryanddawkins.glowing_smote;
+package com.ryanddawkins.glowing_smote.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,6 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.ryanddawkins.glowing_smote.Movie;
+import com.ryanddawkins.glowing_smote.R;
 
 import org.w3c.dom.Text;
 

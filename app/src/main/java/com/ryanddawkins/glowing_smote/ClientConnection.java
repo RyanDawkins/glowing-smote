@@ -32,12 +32,10 @@ public class ClientConnection
         }
         catch(UnknownHostException e)
         {
-            Log.e("glowing-smote", "Unknown host exception", e);
             return null;
         }
         catch(ConnectException e)
         {
-            Log.e("glowing-smote", "", e);
             if(portNumber != Settings.DEFAULT_PORT)
             {
                 portNumber = Settings.DEFAULT_PORT;
@@ -47,7 +45,6 @@ public class ClientConnection
                 }
                 catch(ConnectException e2)
                 {
-                    Log.e("glowing-smote", "IOException", e2);
                     return null;
                 }
                 catch(IOException e2) { socket=null; }

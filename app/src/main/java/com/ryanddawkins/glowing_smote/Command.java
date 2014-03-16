@@ -40,6 +40,7 @@ public class Command extends ClientConnection
     public static final String PREVIOUS_CHAPTER = "PREVIOUS_CHAPTER";
     public static final String SKIP_FORWARD = "SKIP_FORWARD";
     public static final String SKIP_BACKWARD = "SKIP_BACKWARD";
+    public static final String NOW_PLAYING = "NOW_PLAYING";
 
     public Command(Socket socket)
     {
@@ -77,13 +78,9 @@ public class Command extends ClientConnection
                 for(int i = 0; i < jsonArray.size(); i++)
                 {
                     JsonObject movieObject = jsonArray.get(i).getAsJsonObject().get("movie").getAsJsonObject();
-                    if(movieObject.has("name") && movieObject.has("fileName"))
-                    {
-                        Movie movie = new Movie(movieObject.get("name").getAsString());
-                        movie.setFileName(movieObject.get("fileName").getAsString());
-                        movie.setIsDirectory(Boolean.parseBoolean(movieObject.get("isDirectory").getAsString()));
-                        Log.d("glowing-smote", movie.getFileName());
-                        movies.add(movie);
+                    Movie m = Movie.forge(movieObject);
+                    if(m != null){
+                        movies.add(m);
                     }
                 }
             }
@@ -109,7 +106,7 @@ public class Command extends ClientConnection
         StringBuilder json = new StringBuilder();
 
         json.append("{");
-        json.append("\"command\":").append("\"").append(simpleCommand                       ).append("\"");
+            json.append("\"command\":").append("\"").append(simpleCommand).append("\"");
         json.append("}");
 
         writeJSON(json.toString());

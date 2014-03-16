@@ -1,16 +1,11 @@
 package com.ryanddawkins.glowing_smote;
 
 import android.app.Activity;
-import android.app.ActionBar;
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
 
 /**
  * Activity to start the application :D
@@ -21,6 +16,8 @@ import android.os.Build;
  * @extends Activity
  */
 public class MainActivity extends Activity {
+
+    private Settings settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +42,19 @@ public class MainActivity extends Activity {
         }
     }
 
+    @Override
+    public void onRestart() {
+        super.onRestart();
+    }
+
+    @Override
+    public void onResume() {
+
+        this.settings = new Settings(this);
+        NowPlayingTask nowPlayingTask = new NowPlayingTask().setSettings(this.settings);
+        nowPlayingTask.execute();
+        super.onResume();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -68,6 +78,53 @@ public class MainActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public MainActivity getThis(){
+        return this;
+    }
+
+    private class NowPlayingTask extends AsyncTask<Void, Void, Void> {
+
+        private Settings settings;
+        private String response;
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            Command command = Command.getConnection(this.settings.getIpAddress(), this.settings.getPortNumber(), getThis());
+
+            command.simpleCommand(Command.NOW_PLAYING);
+            this.response = command.getJSON();
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Log.d("glowing-smote", this.response);
+            NowPlaying nowPlaying = NowPlaying.forge(this.response);
+            if(nowPlaying != null && nowPlaying.isPlaying())
+            {
+                RemoteFragment remoteFragment = new RemoteFragment(nowPlaying.getMovie().getName());
+                remoteFragment.setLoadedToVlc(nowPlaying.isPlaying());
+                remoteFragment.setIsPlaying(nowPlaying.isPaused());
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.container, remoteFragment)
+                        .addToBackStack(null)
+                        .commit();
+            }
+        }
+
+        public NowPlayingTask setSettings(Settings settings){
+            this.settings = settings;
+            return this;
+        }
+
+        public String getResponse() {
+            return this.response;
+        }
+
     }
 
 }
